@@ -1,0 +1,119 @@
+name: Pull Request Backend Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  backend-check:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: food_ordering_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: src/Backend/package-lock.json
+
+      - name: Install MySQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-mysql-client
+
+      - name: Install backend dependencies
+        working-directory: src/Backend
+        run: npm ci
+
+      - name: Create CI .env
+        working-directory: src/Backend
+        run: |
+          cat > .env <<'EOF'
+          PORT=3000
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_USER=root
+          DB_PASSWORD=root
+          DB_NAME=food_ordering_db
+          JWT_SECRET=github-actions-ci-secret
+          JWT_EXPIRES_IN=7d
+          EOF
+
+      - name: Import database schema and seed data
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot < src/Database/schema.sql
+          mysql -h 127.0.0.1 -uroot -proot < src/Database/seed_data.sql
+
+      - name: Check JavaScript syntax
+        working-directory: src/Backend
+        run: find . -name "*.js" -print0 | xargs -0 -n1 node --check
+
+      - name: Start backend server
+        working-directory: src/Backend
+        run: |
+          nohup node server.js > server.log 2>&1 &
+          echo $! > server.pid
+
+      - name: Wait for health endpoint
+        run: |
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:3000/ > /tmp/health.json; then
+              cat /tmp/health.json
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Server did not start in time"
+          exit 1
+
+      - name: Smoke test public APIs
+        run: |
+          curl -fsS http://127.0.0.1:3000/api/restaurants > /tmp/restaurants.json
+          curl -fsS http://127.0.0.1:3000/api/categories > /tmp/categories.json
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('/tmp/restaurants.json','utf8')); const c=JSON.parse(fs.readFileSync('/tmp/categories.json','utf8')); if(!Array.isArray(r)||r.length===0) throw new Error('restaurants empty'); if(!Array.isArray(c)||c.length===0) throw new Error('categories empty'); console.log('restaurants=' + r.length + ', categories=' + c.length);"
+
+      - name: Smoke test auth flow
+        run: |
+          curl -fsS -X POST http://127.0.0.1:3000/api/auth/register \
+            -H "Content-Type: application/json" \
+            -d '{"full_name":"CI User","email":"ci@example.com","password":"123456","phone":"0900000000"}' > /tmp/register.json
+
+          curl -fsS -X POST http://127.0.0.1:3000/api/auth/login \
+            -H "Content-Type: application/json" \
+            -d '{"email":"ci@example.com","password":"123456"}' > /tmp/login.json
+
+          TOKEN=$(node -e "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('/tmp/login.json','utf8')); process.stdout.write(data.token || '');")
+          test -n "$TOKEN"
+          curl -fsS http://127.0.0.1:3000/api/cart -H "Authorization: Bearer $TOKEN"
+
+      - name: Print backend logs on failure
+        if: failure()
+        working-directory: src/Backend
+        run: |
+          test -f server.log && cat server.log || echo "No server log found"
