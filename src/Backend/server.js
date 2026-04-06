@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth',          require('./routes/auth.routes'));
 // app.use('/api/users',         require('./routes/user.routes'));
 app.use('/api/restaurants',   require('./routes/restaurant.routes'));
-// app.use('/api/categories',    require('./routes/category.routes'));
+app.use('/api/categories',    require('./routes/category.routes'));
 app.use('/api/foods',         require('./routes/food.routes'));
 app.use('/api/cart',           require('./routes/cart.routes'));
 // app.use('/api/orders',        require('./routes/order.routes'));
