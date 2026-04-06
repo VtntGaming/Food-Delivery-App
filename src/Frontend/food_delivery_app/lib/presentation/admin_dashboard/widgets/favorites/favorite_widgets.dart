@@ -130,7 +130,7 @@ class FavoritesGridView extends StatelessWidget {
         crossAxisCount: crossAxisCount,
         mainAxisSpacing: AppTheme.md,
         crossAxisSpacing: AppTheme.md,
-        childAspectRatio: 0.65, // Giảm tỉ lệ để tăng chiều cao cho card, tránh overflow
+        childAspectRatio: 0.65, // Giảm tỷ lệ để tăng chiều cao cho card, tránh overflow
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {

@@ -149,7 +149,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: AppTheme.md,
                 crossAxisSpacing: AppTheme.md,
-                childAspectRatio: 0.8, // Giảm tỉ lệ để có thêm chiều cao, tránh overflow
+                childAspectRatio: 0.8, // Giảm tỷ lệ để có thêm chiều cao, tránh overflow
                 children: [
                   StatisticCard(
                     label: AppConstants.totalUsers,
@@ -174,7 +174,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
             ],
           ),
           DashboardSection(
-            title: 'Thống kê gần theo thời gian',
+            title: 'Thống kê gần đây',
             padding: const EdgeInsets.all(AppTheme.md),
             children: [
               TimelineCard(
