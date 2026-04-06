@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'app/order_flow_page.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/auth/presentation/screens/splash_screen.dart';
 
 void main() {
-  runApp(const NomNomApp());
+  runApp(const FoodDeliveryApp());
 }
 
-class NomNomApp extends StatelessWidget {
-  const NomNomApp({super.key});
+class FoodDeliveryApp extends StatelessWidget {
+  const FoodDeliveryApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NomNom',
+      title: 'Food Delivery',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       initialRoute: '/',
@@ -23,6 +24,7 @@ class NomNomApp extends StatelessWidget {
         '/': (_) => const SplashScreen(),
         '/login': (_) => const LoginScreen(),
         '/register': (_) => const RegisterScreen(),
+        '/order-flow': (_) => const OrderFlowPage(),
       },
     );
   }
