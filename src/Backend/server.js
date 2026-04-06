@@ -14,7 +14,7 @@ app.use('/api/auth',          require('./routes/auth.routes'));
 
 app.use('/api/categories',    require('./routes/category.routes'));
 
-
+app.use('/api/foods',         require('./routes/food.routes'));
 // Health check
 app.get('/', (req, res) => {
   res.json({ message: 'Food Ordering API is running!' });
