@@ -18,7 +18,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   int _currentIndex = 0;
 
   // Sample data
-  late List<UserModel> _users;
+  late List<AdminUserModel> _users;
   late List<PromotionModel> _promotions;
   late List<FavoriteModel> _favorites;
 
@@ -30,19 +30,19 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
 
   void _initializeSampleData() {
     _users = [
-      UserModel(
+      AdminUserModel(
         id: '1',
         name: 'Nguyễn Văn A',
         email: 'nguyenvana@gmail.com',
         role: 'Vai trò: Khách hàng',
       ),
-      UserModel(
+      AdminUserModel(
         id: '2',
         name: 'Lê Thị B',
         email: 'lethib@gmail.com',
         role: 'Vai trò: Chủ quán',
       ),
-      UserModel(
+      AdminUserModel(
         id: '3',
         name: 'Trần Văn C',
         email: 'tranvanc@gmail.com',

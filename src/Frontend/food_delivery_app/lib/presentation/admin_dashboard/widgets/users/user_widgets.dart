@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/config/theme.dart';
 import '../common/app_widgets.dart';
 
-class UserModel {
+class AdminUserModel {
   final String id;
   final String name;
   final String email;
   final String role;
 
-  UserModel({
+  AdminUserModel({
     required this.id,
     required this.name,
     required this.email,
@@ -17,7 +17,7 @@ class UserModel {
 }
 
 class UserListTile extends StatelessWidget {
-  final UserModel user;
+  final AdminUserModel user;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
 
@@ -122,7 +122,7 @@ class UserListTile extends StatelessWidget {
 }
 
 class UsersSection extends StatelessWidget {
-  final List<UserModel> users;
+  final List<AdminUserModel> users;
   final VoidCallback? onEditUser;
   final VoidCallback? onDeleteUser;
 

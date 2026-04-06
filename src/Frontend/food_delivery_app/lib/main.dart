@@ -43,6 +43,7 @@ class FoodDeliveryApp extends StatelessWidget {
         '/order-flow': (_) => const OrderFlowPage(),
         '/demo-navigation': (_) => const DemoNavigationPage(),
         '/home': (_) => const HomeScreen(),
+        '/demo-home': (_) => const DemoHomeScreen(),
         AdminDashboardScreen.routeName: (_) => const AdminDashboardScreen(),
         '/menu-list': (_) => const MenuManagementScreen(),
         '/orders': (_) => const OrderManagementScreen(),
