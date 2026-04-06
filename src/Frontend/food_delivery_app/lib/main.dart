@@ -120,7 +120,9 @@ class DemoHomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   FoodItem _getSampleFoodItem() {
     return FoodItem(
