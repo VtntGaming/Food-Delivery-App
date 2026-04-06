@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'src/presentation/admin_dashboard/admin_dashboard_screen.dart';
+import 'src/presentation/admin_dashboard/menu_management_screen.dart';
+import 'src/presentation/admin_dashboard/order_management_screen.dart';
+import 'src/presentation/admin_dashboard/order_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +34,15 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+  // Start the app on the admin dashboard during development so the
+  // screens are visible immediately. Keep MyHomePage for later.
+  home: const AdminDashboardScreen(),
+      routes: {
+        AdminDashboardScreen.routeName: (_) => const AdminDashboardScreen(),
+        '/menu-list': (_) => const MenuManagementScreen(),
+        '/orders': (_) => const OrderManagementScreen(),
+        '/orders/detail': (_) => const OrderDetailScreen(),
+      },
     );
   }
 }
