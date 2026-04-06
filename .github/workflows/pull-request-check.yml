@@ -1,4 +1,4 @@
-name: Pull Request Backend Check
+name: Pull Request Checks
 
 on:
   pull_request:
@@ -141,3 +141,39 @@ jobs:
         working-directory: src/Backend
         run: |
           test -f server.log && cat server.log || echo "No server log found"
+
+  frontend-check:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: src/Frontend/food_delivery_app
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install frontend dependencies
+        run: flutter pub get
+
+      - name: Check Dart formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Analyze frontend code
+        run: flutter analyze
+
+      - name: Run Flutter tests
+        run: flutter test
