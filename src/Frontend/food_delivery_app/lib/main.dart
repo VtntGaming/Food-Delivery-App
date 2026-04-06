@@ -17,6 +17,10 @@ import 'src/presentation/admin_dashboard/admin_dashboard_screen.dart';
 import 'src/presentation/admin_dashboard/menu_management_screen.dart';
 import 'src/presentation/admin_dashboard/order_management_screen.dart';
 import 'src/presentation/admin_dashboard/order_detail_screen.dart';
+import 'presentation/admin_dashboard/pages/admin_dashboard_page.dart';
+import 'presentation/screens/home_screen.dart';
+import 'presentation/screens/restaurant_detail_screen.dart';
+import 'presentation/screens/search_screen.dart';
 
 void main() {
   runApp(const FoodDeliveryApp());
@@ -39,17 +43,21 @@ class FoodDeliveryApp extends StatelessWidget {
         '/order-flow': (_) => const OrderFlowPage(),
         '/demo-navigation': (_) => const DemoNavigationPage(),
         '/home': (_) => const HomeScreen(),
+        '/demo-home': (_) => const DemoHomeScreen(),
         AdminDashboardScreen.routeName: (_) => const AdminDashboardScreen(),
         '/menu-list': (_) => const MenuManagementScreen(),
         '/orders': (_) => const OrderManagementScreen(),
         '/orders/detail': (_) => const OrderDetailScreen(),
+        '/admin-dashboard': (_) => const AdminDashboardPage(),
+        '/search': (_) => const SearchScreen(),
+        '/restaurant-detail': (_) => const RestaurantDetailScreen(),
       },
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class DemoHomeScreen extends StatelessWidget {
+  const DemoHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +110,13 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               child: const Text('Reviews Screen'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/admin-dashboard');
+              },
+              child: const Text('Admin Dashboard (New)'),
             ),
           ],
         ),
