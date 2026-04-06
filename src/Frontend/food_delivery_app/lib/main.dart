@@ -18,6 +18,9 @@ import 'src/presentation/admin_dashboard/menu_management_screen.dart';
 import 'src/presentation/admin_dashboard/order_management_screen.dart';
 import 'src/presentation/admin_dashboard/order_detail_screen.dart';
 import 'presentation/admin_dashboard/pages/admin_dashboard_page.dart';
+import 'presentation/screens/home_screen.dart';
+import 'presentation/screens/restaurant_detail_screen.dart';
+import 'presentation/screens/search_screen.dart';
 
 void main() {
   runApp(const FoodDeliveryApp());
@@ -39,12 +42,14 @@ class FoodDeliveryApp extends StatelessWidget {
         '/register': (_) => const RegisterScreen(),
         '/order-flow': (_) => const OrderFlowPage(),
         '/demo-navigation': (_) => const DemoNavigationPage(),
-        '/home': (_) => const DemoHomeScreen(),
+        '/home': (_) => const HomeScreen(),
         AdminDashboardScreen.routeName: (_) => const AdminDashboardScreen(),
         '/menu-list': (_) => const MenuManagementScreen(),
         '/orders': (_) => const OrderManagementScreen(),
         '/orders/detail': (_) => const OrderDetailScreen(),
         '/admin-dashboard': (_) => const AdminDashboardPage(),
+        '/search': (_) => const SearchScreen(),
+        '/restaurant-detail': (_) => const RestaurantDetailScreen(),
       },
     );
   }
@@ -114,9 +119,7 @@ class DemoHomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
 
   FoodItem _getSampleFoodItem() {
     return FoodItem(
