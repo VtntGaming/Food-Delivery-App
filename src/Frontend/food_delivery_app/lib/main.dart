@@ -13,6 +13,10 @@ import 'features/favorites/domain/entities/favorite_item.dart';
 import 'features/reviews/presentation/pages/reviews_screen.dart';
 import 'features/reviews/domain/entities/user_review.dart';
 import 'screens/demo_navigation_page.dart';
+import 'src/presentation/admin_dashboard/admin_dashboard_screen.dart';
+import 'src/presentation/admin_dashboard/menu_management_screen.dart';
+import 'src/presentation/admin_dashboard/order_management_screen.dart';
+import 'src/presentation/admin_dashboard/order_detail_screen.dart';
 
 void main() {
   runApp(const FoodDeliveryApp());
@@ -35,6 +39,10 @@ class FoodDeliveryApp extends StatelessWidget {
         '/order-flow': (_) => const OrderFlowPage(),
         '/demo-navigation': (_) => const DemoNavigationPage(),
         '/home': (_) => const HomeScreen(),
+        AdminDashboardScreen.routeName: (_) => const AdminDashboardScreen(),
+        '/menu-list': (_) => const MenuManagementScreen(),
+        '/orders': (_) => const OrderManagementScreen(),
+        '/orders/detail': (_) => const OrderDetailScreen(),
       },
     );
   }
